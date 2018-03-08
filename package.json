@@ -1,12 +1,27 @@
 {
   "name": "vue-mason",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "version": "0.0.1",
+  "description": "A command line tool for quickly generating and scaffolding Vue files.",
+  "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "npm run pretty && babel-node lib/index.js",
+    "build": "babel lib -d dist",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "pretty": "node_modules/.bin/prettier --write **/*.js"
+  },
+  "bin": {
+    "vue-mason": "dist/index.js"
   },
   "keywords": [],
   "author": "Dillon Chanis <dillonchanis92@gmail.com> (http://dillonchanis.com/)",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "commander": "2.14.1"
+  },
+  "devDependencies": {
+    "babel-cli": "6.26.0",
+    "babel-preset-es2015": "6.24.1",
+    "babel-preset-stage-2": "6.24.1",
+    "prettier": "1.11.1"
+  }
 }
