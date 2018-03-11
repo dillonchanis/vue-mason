@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 const program = require('commander')
+const chalk = require('chalk')
 
 program
   .version(require('../package').version, '-v, --version')
@@ -30,5 +31,14 @@ program
   .option('-f, --flat', 'Create a single index.js containing core Vuex features.')
   .option('-s, --spread', 'Spreads Vuex features into their own files and imported into an index file.')
   .action()
+
+program
+  .on('--help', () => {
+    console.log()
+    console.log(`Run ${chalk.cyan(`vue-mason <command> --help`)} for more detailed usage.`)
+    console.log()
+  })
+
+program.commands.forEach(c => c.on('--help'), () => console.log())
 
 program.parse(process.argv)

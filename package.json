@@ -13,7 +13,9 @@
   "author": "Dillon Chanis <dillonchanis92@gmail.com> (http://dillonchanis.com/)",
   "license": "MIT",
   "dependencies": {
-    "commander": "2.14.1"
+    "chalk": "2.3.2",
+    "commander": "2.14.1",
+    "mustache": "2.3.0"
   },
   "devDependencies": {
     "prettier": "1.11.1"
