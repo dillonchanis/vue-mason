@@ -15,7 +15,7 @@
   "dependencies": {
     "chalk": "2.3.2",
     "commander": "2.14.1",
-    "mustache": "2.3.0"
+    "ejs": "2.5.7"
   },
   "devDependencies": {
     "prettier": "1.11.1"
