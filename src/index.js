@@ -1,16 +1,41 @@
-const ComponentCommand = require('./Command/Component')
+const path = require('path')
+const fs = require('fs')
+const ejs = require('ejs')
+const mkdirp = require('mkdirp')
+const { compose } = require('./utils')
 
-function create (name, options) {
-  let { type } = options
+const cwd = process.cwd()
 
-  if (!type) type = 'single-file'
+const removeTrailingSlash = str => str.replace(/\/+$/, '')
 
-  const opts = {
-    type,
-    path: options.path ? options.path : null
+const createDir = dir => {
+  compose(mkdirp.sync, removeTrailingSlash)(dir)
+}
+
+const componentFileType = type => (type ? type : 'single-file')
+
+const componentWritePath = p => (p ? path.join(cwd, p) : cwd)
+
+function create(name, options) {
+  const type = componentFileType(options.type)
+  const writePath = componentWritePath(options.path)
+
+  if (!fs.existsSync(writePath)) {
+    createDir(writePath)
   }
 
-  const cmd = new ComponentCommand(name, opts)
+  const templatePath = path.join(
+    __dirname,
+    '/templates/component',
+    `${type}-component.ejs`
+  )
+  const templateContents = fs.readFileSync(templatePath, 'utf8')
+
+  fs.writeFileSync(
+    `${writePath}/${name}.vue`,
+    ejs.render(templateContents, { name }),
+    'utf-8'
+  )
 }
 
 module.exports = create
