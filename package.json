@@ -15,7 +15,8 @@
   "dependencies": {
     "chalk": "2.3.2",
     "commander": "2.14.1",
-    "ejs": "2.5.7"
+    "ejs": "2.5.7",
+    "mkdirp": "^0.5.1"
   },
   "devDependencies": {
     "prettier": "1.11.1"
