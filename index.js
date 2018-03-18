@@ -23,10 +23,10 @@ program
 program
   .command('create:route <route-path>')
   .description('Create a Vue router file.')
-  .option('-c, --component', 'The name of the component the route is for.')
-  .option('-n, --name', 'The name of the route.')
-  .option('-u, --url', 'The URL for the component route.')
-  .option('-p, --path', 'The path where to put the route file.')
+  .option('-c, --component <component>', 'The name of the component the route is for.')
+  .option('-u, --url <url>', 'The URL for the component route.')
+  .option('-n, --name [name]', 'The name of the route.')
+  .option('-p, --path [path]', 'The path where to put the route file.')
   .action()
 
 program
@@ -39,7 +39,7 @@ program
 program
   .on('--help', () => {
     console.log()
-    console.log(`Run ${chalk.cyan(`vue-mason <command> --help`)} for more detailed usage.`)
+    console.log(`Run ${chalk.cyan(`vmason <command> --help`)} for more detailed usage.`)
     console.log()
   })
 
