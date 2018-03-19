@@ -16,7 +16,7 @@ const componentFileType = type => (type ? type : 'single-file')
 
 const componentWritePath = p => (p ? path.join(cwd, p) : cwd)
 
-function create(name, options) {
+function component(name, options) {
   const type = componentFileType(options.type)
   const writePath = componentWritePath(options.path)
 
@@ -38,4 +38,29 @@ function create(name, options) {
   )
 }
 
-module.exports = create
+function route (url, { component, name, p = './' }) {
+  // check options.component, options.name, options.path
+  const writePath = componentWritePath(p)
+
+  if (!fs.existsSync(writePath)) {
+    createDir(writePath)
+  }
+
+  const templatePath = path.join(
+    __dirname,
+    '/templates/route/route.ejs'
+  )
+
+  const templateContents = fs.readFileSync(templatePath, 'utf8')
+
+  fs.writeFileSync(
+    `${writePath}/route.js`,
+    ejs.render(templateContents, { url, component, name }),
+    'utf-8'
+  )
+}
+
+module.exports = {
+  component,
+  route
+}

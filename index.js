@@ -2,7 +2,8 @@
 
 const program = require('commander')
 const chalk = require('chalk')
-const ComponentCommand = require('./src/Command/Component')
+const ComponentCommand = require('./src/lib/')
+const create = require('./src')
 
 program
   .version(require('./package').version, '-v, --version')
@@ -17,17 +18,21 @@ program
     ComponentCommand.help
   })
   .action((name, options) => {
-    require('./src')(name, options)
+    create.component(name, options)
   })
 
 program
-  .command('create:route <route-path>')
+  .command('create:route <url>')
   .description('Create a Vue router file.')
-  .option('-c, --component <component>', 'The name of the component the route is for.')
-  .option('-u, --url <url>', 'The URL for the component route.')
+  .option('-c, --component [component]', 'The name of the component the route is for.')
   .option('-n, --name [name]', 'The name of the route.')
   .option('-p, --path [path]', 'The path where to put the route file.')
-  .action()
+  .on('--help', () => {
+    console.log('Route help here.')
+  })
+  .action((url, options) => {
+    create.route(url, options)
+  })
 
 program
   .command('create:store <store-name>')
