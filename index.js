@@ -5,6 +5,11 @@ const chalk = require('chalk')
 const ComponentCommand = require('./src/lib/')
 const create = require('./src')
 
+function collect (val, arr) {
+  arr.push(val)
+  return arr
+}
+
 program
   .version(require('./package').version, '-v, --version')
   .usage('<command> [options]')
@@ -22,16 +27,17 @@ program
   })
 
 program
-  .command('create:route <url>')
+  .command('create:route <url> [urls...]')
   .description('Create a Vue router file.')
-  .option('-c, --component [component]', 'The name of the component the route is for.')
-  .option('-n, --name [name]', 'The name of the route.')
+  .option('-c, --component [component]', 'The name of the component the route is for.', collect, [])
+  .option('-n, --name [name]', 'The name of the route.', collect, [])
   .option('-p, --path [path]', 'The path where to put the route file.')
   .on('--help', () => {
     console.log('Route help here.')
   })
-  .action((url, options) => {
-    create.route(url, options)
+  .action((url, urls, options) => {
+    const routes = urls.length ? [url, ...urls] : [url]
+    create.route(routes, options)
   })
 
 program
