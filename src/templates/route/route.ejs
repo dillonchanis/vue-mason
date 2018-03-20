@@ -1,9 +1,11 @@
 import {} from ''
 
 export default [
+  <% routes.forEach(function (route) { %>
   {
-    path: '<%= url %>',
-    name: '<%= name %>',
-    component: <%= component %>
+    path: '<%= route.url %>',
+    name: '<%= route.name %>',
+    component: <%= route.component %>
   }
+  <% }); %>
 ]
