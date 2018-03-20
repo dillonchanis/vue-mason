@@ -2,15 +2,13 @@ const path = require('path')
 const fs = require('fs')
 const ejs = require('ejs')
 const mkdirp = require('mkdirp')
-const { compose } = require('./utils')
+const { compose, zipWith } = require('./utils')
 
 const cwd = process.cwd()
 
 const removeTrailingSlash = str => str.replace(/\/+$/, '')
 
-const createDir = dir => {
-  compose(mkdirp.sync, removeTrailingSlash)(dir)
-}
+const createDir = dir => compose(mkdirp.sync, removeTrailingSlash)(dir)
 
 const componentFileType = type => (type ? type : 'single-file')
 
@@ -38,7 +36,7 @@ function component(name, options) {
   )
 }
 
-function route (url, { component, name, p = './' }) {
+function route(urls, { component, name, p = './' }) {
   // check options.component, options.name, options.path
   const writePath = componentWritePath(p)
 
@@ -46,21 +44,27 @@ function route (url, { component, name, p = './' }) {
     createDir(writePath)
   }
 
-  const templatePath = path.join(
-    __dirname,
-    '/templates/route/route.ejs'
-  )
+  const templatePath = path.join(__dirname, '/templates/route/route.ejs')
 
   const templateContents = fs.readFileSync(templatePath, 'utf8')
 
+  const routes = zipWith(urls, component, name, (url, c = '', n = '') => ({
+    url,
+    component: c,
+    name: n
+  }))
+
   fs.writeFileSync(
     `${writePath}/route.js`,
-    ejs.render(templateContents, { url, component, name }),
+    ejs.render(templateContents, { routes }),
     'utf-8'
   )
 }
 
+function store() {}
+
 module.exports = {
   component,
-  route
+  route,
+  store
 }

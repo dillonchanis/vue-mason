@@ -1,7 +1,11 @@
-const utils = module.exports = {}
+const zipWith = require('lodash.zipwith')
 
-utils.compose = (...fns) => x => fns.reduceRight((acc, fn) => fn(acc), x)
+module.exports = {
+  compose: (...fns) => x => fns.reduceRight((acc, fn) => fn(acc), x),
 
-utils.padLeft = (amt, char) => str => str.padStart((str.length + amt), char)
+  padLeft: (amt, char) => str => str.padStart((str.length + amt), char),
 
-utils.bullet = str => `• ${str}`
+  bullet: str => `• ${str}`,
+
+  zipWith
+}
