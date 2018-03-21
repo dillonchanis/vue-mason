@@ -18,7 +18,7 @@ program
   .command('create:component <component-name>')
   .description('Create a single file Vue component.')
   .option('-t, --type <type>', 'The type of Vue component you want to generate.')
-  .option('-p, --path [path]', 'The path where to put the component file.')
+  .option('-p, --path [path]', 'The path where to put the component file.', './src/components')
   .on('--help', () => {
     ComponentCommand.help
   })
