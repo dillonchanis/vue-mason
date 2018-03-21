@@ -31,7 +31,8 @@ program
   .description('Create a Vue router file.')
   .option('-c, --component [component]', 'The name of the component the route is for.', collect, [])
   .option('-n, --name [name]', 'The name of the route.', collect, [])
-  .option('-p, --path [path]', 'The path where to put the route file.')
+  .option('-p, --path [path]', 'The path where to put the route file. Defaults to current directory.', './')
+  .option('-f, --filename [filename]', 'The name of the file to save to. Defaults to routes.js', 'route.js')
   .on('--help', () => {
     console.log('Route help here.')
   })
