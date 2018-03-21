@@ -3,6 +3,7 @@ const fs = require('fs')
 const ejs = require('ejs')
 const mkdirp = require('mkdirp')
 const { compose, zipWith } = require('./utils')
+const chalk = require('chalk')
 
 const cwd = process.cwd()
 
@@ -36,16 +37,20 @@ function component(name, options) {
   )
 }
 
-function route(urls, { component, name, p = './' }) {
-  // check options.component, options.name, options.path
+function route(urls, { component, name, p, filename }) {
   const writePath = componentWritePath(p)
+  const filepath = `${writePath}/route.js`
 
   if (!fs.existsSync(writePath)) {
     createDir(writePath)
   }
 
-  const templatePath = path.join(__dirname, '/templates/route/route.ejs')
+  if (fs.existsSync(filepath)) {
+    console.log(chalk.yellow('That file already exists.'))
+    return
+  }
 
+  const templatePath = path.join(__dirname, '/templates/route/route.ejs')
   const templateContents = fs.readFileSync(templatePath, 'utf8')
 
   const routes = zipWith(urls, component, name, (url, c = '', n = '') => ({
@@ -57,7 +62,7 @@ function route(urls, { component, name, p = './' }) {
   fs.writeFileSync(
     `${writePath}/route.js`,
     ejs.render(templateContents, { routes }),
-    'utf-8'
+    'utf8'
   )
 }
 
