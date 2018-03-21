@@ -39,7 +39,9 @@ function component(name, options) {
 
 function route(urls, { component, name, p, filename }) {
   const writePath = componentWritePath(p)
-  const filepath = `${writePath}/route.js`
+  const filepath = filename.endsWith('.js')
+    ? `${writePath}/${filename}`
+    : `${writePath}/${filename}.js`
 
   if (!fs.existsSync(writePath)) {
     createDir(writePath)
@@ -53,10 +55,10 @@ function route(urls, { component, name, p, filename }) {
   const templatePath = path.join(__dirname, '/templates/route/route.ejs')
   const templateContents = fs.readFileSync(templatePath, 'utf8')
 
-  const routes = zipWith(urls, component, name, (url, c = '', n = '') => ({
+  const routes = zipWith(urls, component, name, (url, comp = '', routeName = '') => ({
     url,
-    component: c,
-    name: n
+    component: comp,
+    name: routeName
   }))
 
   fs.writeFileSync(
