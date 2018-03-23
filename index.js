@@ -44,8 +44,12 @@ program
 program
   .command('create:store <store-name>')
   .description('Create a Vuex store directory and index file for a component.')
-  .option('-f, --flat', 'Create a single index.js containing core Vuex features.')
-  .option('-s, --spread', 'Spreads Vuex features into their own files and imported into an index file.')
+  .option('-t, --type [type]', 'The type of folder structure you want for your Vuex store.', 'flat')
+  .on('--help', () => {
+    // TODO
+    console.log('--flat, Create a single index.js containing core Vuex features. (Default)')
+    console.log('--spread, Spreads Vuex features into their own files and imported into an index file.')
+  })
   .action()
 
 program
