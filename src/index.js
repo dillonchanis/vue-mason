@@ -1,40 +1,18 @@
-const path = require('path')
-const fs = require('fs')
-const ejs = require('ejs')
-const mkdirp = require('mkdirp')
-const { compose, zipWith } = require('./utils')
-const chalk = require('chalk')
-
-const cwd = process.cwd()
-
-const removeTrailingSlash = str => str.replace(/\/+$/, '')
-
-const createDir = dir => compose(mkdirp.sync, removeTrailingSlash)(dir)
-
-const componentFileType = type => (type ? type : 'single-file')
-
-const componentWritePath = p => (p ? path.join(cwd, p) : cwd)
+const Command = require('./Command')
+const { zipWith } = require('./utils')
 
 function component(name, options) {
-  const type = componentFileType(options.type)
-  const writePath = componentWritePath(options.path)
+  const { type } = options
+  const writePath = Command.writePath(options.path)
 
-  if (!fs.existsSync(writePath)) {
-    createDir(writePath)
+  if (Command.pathDoesNotExist(writePath)) {
+    Command.createDirectory(writePath)
   }
 
-  const templatePath = path.join(
-    __dirname,
-    '/templates/component',
-    `${type}-component.ejs`
-  )
-  const templateContents = fs.readFileSync(templatePath, 'utf8')
+  const templatePath = Command.templatePath('/templates/component', `${type}-component.ejs`)
+  const templateContents = Command.templateContents(templatePath)
 
-  fs.writeFileSync(
-    `${writePath}/${name}.vue`,
-    ejs.render(templateContents, { name }),
-    'utf-8'
-  )
+  Command.createFile(`${writePath}/${name}.vue`, templateContents, { name })
 }
 
 function route(urls, { component, name, p, filename }) {
@@ -43,17 +21,17 @@ function route(urls, { component, name, p, filename }) {
     ? `${writePath}/${filename}`
     : `${writePath}/${filename}.js`
 
-  if (!fs.existsSync(writePath)) {
-    createDir(writePath)
+  if (Command.pathDoesNotExist(writePath)) {
+    Command.createDirectory(writePath)
   }
 
-  if (fs.existsSync(filepath)) {
-    console.log(chalk.yellow('That file already exists.'))
+  if (!Command.pathDoesNotExist(filepath)) {
+    Command.log('warning', 'That file already exists!')
     return
   }
 
-  const templatePath = path.join(__dirname, '/templates/route/route.ejs')
-  const templateContents = fs.readFileSync(templatePath, 'utf8')
+  const templatePath = Command.templatePath('/templates/route/route.ejs')
+  const templateContents = Command.templateContents(templatePath)
 
   const routes = zipWith(urls, component, name, (url, comp = '', routeName = '') => ({
     url,
@@ -61,17 +39,10 @@ function route(urls, { component, name, p, filename }) {
     name: routeName
   }))
 
-  fs.writeFileSync(
-    `${writePath}/route.js`,
-    ejs.render(templateContents, { routes }),
-    'utf8'
-  )
+  Command.createFile(`${writePath}/route.js`, templateContents, { routes })
 }
-
-function store() {}
 
 module.exports = {
   component,
-  route,
-  store
+  route
 }
