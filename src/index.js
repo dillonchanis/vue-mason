@@ -9,7 +9,10 @@ function component(name, options) {
     Command.createDirectory(writePath)
   }
 
-  const templatePath = Command.templatePath('/templates/component', `${type}-component.ejs`)
+  const templatePath = Command.templatePath(
+    '/templates/component',
+    `${type}-component.ejs`
+  )
   const templateContents = Command.templateContents(templatePath)
 
   Command.createFile(`${writePath}/${name}.vue`, templateContents, { name })
@@ -33,11 +36,16 @@ function route(urls, { component, name, p, filename }) {
   const templatePath = Command.templatePath('/templates/route/route.ejs')
   const templateContents = Command.templateContents(templatePath)
 
-  const routes = zipWith(urls, component, name, (url, comp = '', routeName = '') => ({
-    url,
-    component: comp,
-    name: routeName
-  }))
+  const routes = zipWith(
+    urls,
+    component,
+    name,
+    (url, comp = '', routeName = '') => ({
+      url,
+      component: comp,
+      name: routeName
+    })
+  )
 
   Command.createFile(`${writePath}/route.js`, templateContents, { routes })
 }
