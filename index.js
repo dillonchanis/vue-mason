@@ -42,15 +42,20 @@ program
   })
 
 program
-  .command('create:store <store-name>')
+  .command('create:store <name>')
   .description('Create a Vuex store directory and index file for a component.')
   .option('-t, --type [type]', 'The type of folder structure you want for your Vuex store.', 'flat')
+  .option('-n, --namespaced', 'Whether or not the Vuex store is namespaced. Defaults to false.', false)
+  .option('-p, --path [path]', 'The path where to save the store folder. Defaults to current directory.', './')
   .on('--help', () => {
     // TODO
     console.log('--flat, Create a single index.js containing core Vuex features. (Default)')
     console.log('--spread, Spreads Vuex features into their own files and imported into an index file.')
   })
-  .action()
+  .action((name, options) => {
+    if (!options.namespaced) options.namespaced = false
+    create.store(name, options)
+  })
 
 program
   .on('--help', () => {
