@@ -29,7 +29,7 @@ function route(urls, { component, name, p, filename }) {
   }
 
   if (!Command.pathDoesNotExist(filepath)) {
-    Command.log('warning', 'That file already exists!')
+    Command.log('That file already exists!', 'warning')
     return
   }
 

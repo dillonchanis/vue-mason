@@ -15,7 +15,7 @@ const createFile = (filePath, content, data) => fs.writeFileSync(
 
 const createDirectory = dir => compose(mkdirp.sync, removeTrailingSlash)(dir)
 
-const log = (type, msg) => {
+const log = (msg, type) => {
   switch (type) {
     case 'success':
       chalk.green(msg)
