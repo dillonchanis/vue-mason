@@ -18,13 +18,13 @@ const createDirectory = dir => compose(mkdirp.sync, removeTrailingSlash)(dir)
 const log = (msg, type) => {
   switch (type) {
     case 'success':
-      chalk.green(msg)
+      console.log(chalk.green(msg))
       break
     case 'warning':
-      chalk.yellow(msg)
+    console.log(chalk.yellow(msg))
       break
     case 'error':
-      chalk.red(msg)
+    console.log(chalk.red(msg))
       break
     default:
       console.log(msg)
