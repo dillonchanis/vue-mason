@@ -1,5 +1,11 @@
 const Command = require('../Command')
 
+/**
+ * Create a new Vuex store file
+ *
+ * @class StoreCommand
+ * @constructor
+ */
 class StoreCommand extends Command {
   constructor (name, { type, path, namespaced }) {
     super()
@@ -10,14 +16,31 @@ class StoreCommand extends Command {
     this.writePath = this.createWritePath(path)
   }
 
+  /**
+   * Get the Vuex template type
+   *
+   * @return {String}
+   */
   get templateType () {
     return this.type === 'flat' ? 'flat.ejs' : 'spread/'
   }
 
+  /**
+   * Path to the template file
+   *
+   * @method templatePath
+   * @return {String}
+   */
   get templatePath () {
     return this._templatePath('/src/templates/store', this.templateType)
   }
 
+  /**
+   * Get the spread file names
+   *
+   * @static
+   * @return {Array}
+   */
   static get storeTypes () {
     return [
       'actions',
@@ -28,6 +51,12 @@ class StoreCommand extends Command {
     ]
   }
 
+  /**
+   * Create flat Vuex store file
+   *
+   * @private
+   * @return {void}
+   */
   async _createFlat () {
     const templateContents = await this.readFile(this.templatePath)
     const file = `${this.writePath}/index.js`
@@ -39,6 +68,12 @@ class StoreCommand extends Command {
     )
   }
 
+  /**
+   * Create individual Vuex store files
+   *
+   * @private
+   * @return {void}
+   */
   async _createSpread () {
     StoreCommand.storeTypes.forEach(async (type) => {
       const templateContents = await this.readFile(`${this.templatePath}${type}.ejs`)
@@ -52,6 +87,11 @@ class StoreCommand extends Command {
     })
   }
 
+  /**
+   * Creates the Vuex file(s)
+   *
+   * @return {void}
+   */
   createFile () {
     if (this.type === 'flat') {
       this._createFlat()
