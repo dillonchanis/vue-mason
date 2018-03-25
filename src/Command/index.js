@@ -1,53 +1,88 @@
-const path = require('path')
 const fs = require('fs')
-const ejs = require('ejs')
 const mkdirp = require('mkdirp')
-const chalk = require('chalk')
-const { compose } = require('../utils')
-
+const path = require('path')
+const ejs = require('ejs')
 const cwd = process.cwd()
+const util = require('util')
+const { compose, removeTrailingSlash } = require('../utils')
 
-const createFile = (filePath, content, data) => fs.writeFileSync(
-  filePath,
-  ejs.render(content, data),
-  'utf-8'
-)
+/**
+ * Class for parsing Commander options
+ */
+class Command {
+  async boot () {
+    try {
+      await this.setupDirectory()
+      await this.createFile()
+    } catch (err) {
+      console.error(err)
+    }
+  }
 
-const createDirectory = dir => compose(mkdirp.sync, removeTrailingSlash)(dir)
+  async setupDirectory () {
+    if (!this.writePath) {
+      console.warn('No write path as been specified.')
+      return
+    }
 
-const log = (msg, type) => {
-  switch (type) {
-    case 'success':
-      console.log(chalk.green(msg))
-      break
-    case 'warning':
-      console.log(chalk.yellow(msg))
-      break
-    case 'error':
-      console.log(chalk.red(msg))
-      break
-    default:
-      console.log(msg)
+    let exists
+
+    try {
+      exists = await this.pathExists()
+    } catch (err) {
+      console.error(err)
+    }
+
+    if (exists) {
+      console.warn('That path already exists!')
+      return
+    }
+
+    this._createDirectory()
+  }
+
+  _createDirectory () {
+    return compose(
+      mkdirp.sync,
+      removeTrailingSlash
+    )(this.writePath)
+  }
+
+  createWritePath (p) {
+    return path.join(cwd, p)
+  }
+
+  pathExists () {
+    let exists
+
+    fs.access(this.writePath, err => {
+      if (err && err.code === 'ENOENT') {
+        exists = false
+      } else {
+        exists = true
+      }
+    })
+
+    return exists
+  }
+
+  _templatePath (...args) {
+    return path.join(global.APP_ROOT, ...args)
+  }
+
+  logError (err) {
+    console.log('err', err)
+  }
+
+  readFile (file) {
+    const readFilePromise = util.promisify(fs.readFile)
+    return readFilePromise(file, 'utf8')
+  }
+
+  writeFile (filePath, content, data) {
+    const writeFilePromise = util.promisify(fs.writeFile)
+    return writeFilePromise(filePath, ejs.render(content, data), 'utf-8')
   }
 }
 
-const pathDoesNotExist = p => !fs.existsSync(p)
-
-const removeTrailingSlash = str => str.replace(/\/+$/, '')
-
-const templateContents = x => fs.readFileSync(x, 'utf8')
-
-const templatePath = (...args) => path.join(__dirname, '../', ...args)
-
-const writePath = p => path.join(cwd, p)
-
-module.exports = {
-  createFile,
-  createDirectory,
-  log,
-  pathDoesNotExist,
-  removeTrailingSlash,
-  templateContents,
-  templatePath,
-  writePath
-}
+module.exports = Command
