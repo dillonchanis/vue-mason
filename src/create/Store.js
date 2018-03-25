@@ -1,4 +1,5 @@
 const Command = require('../Command')
+const { removeTrailingSlash } = require('../utils')
 
 /**
  * Create a new Vuex store file
@@ -10,10 +11,12 @@ class StoreCommand extends Command {
   constructor (name, { type, path, namespaced }) {
     super()
 
+    const dirName = `${removeTrailingSlash(path)}/${name}`
+
     this.name = name
     this.type = type
     this.namespaced = namespaced
-    this.writePath = this.createWritePath(path)
+    this.writePath = this.createWritePath(dirName)
   }
 
   /**
@@ -77,7 +80,7 @@ class StoreCommand extends Command {
   async _createSpread () {
     StoreCommand.storeTypes.forEach(async (type) => {
       const templateContents = await this.readFile(`${this.templatePath}${type}.ejs`)
-      const file = `${this.writePath}/${name}.js`
+      const file = `${this.writePath}/${type}.js`
 
       await this.writeFile(
         file,
