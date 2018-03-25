@@ -3,8 +3,7 @@
   "version": "0.0.1",
   "description": "A command line tool for quickly generating and scaffolding Vue files.",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "pretty": "node_modules/.bin/prettier --write **/*.js"
+    "lint": "node_modules/.bin/standard './src/**/*.js' --fix | snazzy || exit 0"
   },
   "bin": {
     "vue-mason": "./index.js"
@@ -21,6 +20,7 @@
   },
   "devDependencies": {
     "husky": "0.15.0-rc.13",
-    "prettier": "1.11.1"
+    "snazzy": "7.1.1",
+    "standard": "11.0.1"
   }
 }
