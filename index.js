@@ -5,6 +5,8 @@ const chalk = require('chalk')
 const path = require('path')
 const create = require('./src')
 
+const ComponentCommand = require('./src/create/Component')
+
 global.APP_ROOT = Object.freeze(path.resolve(__dirname))
 
 function collect (val, arr) {
@@ -22,7 +24,7 @@ program
   .option('-t, --type <type>', 'The type of Vue component you want to generate.', 'single-file')
   .option('-p, --path [path]', 'The path where to put the component file. Defaults to a "src" directory.', './src/components')
   .on('--help', () => {
-    console.log('Component help here.')
+    ComponentCommand.help
   })
   .action((name, options) => {
     create.component(name, options)
