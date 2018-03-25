@@ -2,8 +2,10 @@
 
 const program = require('commander')
 const chalk = require('chalk')
-const ComponentCommand = require('./src/lib/')
+const path = require('path')
 const create = require('./src')
+
+global.APP_ROOT = Object.freeze(path.resolve(__dirname))
 
 function collect (val, arr) {
   arr.push(val)
