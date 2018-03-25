@@ -5,6 +5,11 @@
   "scripts": {
     "lint": "node_modules/.bin/standard './src/**/*.js' --fix | snazzy || exit 0"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint"
+    }
+  },
   "bin": {
     "vue-mason": "./index.js"
   },
