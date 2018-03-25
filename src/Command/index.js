@@ -10,6 +10,11 @@ const { compose, removeTrailingSlash } = require('../utils')
  * Class for parsing Commander options
  */
 class Command {
+  /**
+   * Executes file creation
+   *
+   * @return {void}
+   */
   async boot () {
     try {
       await this.setupDirectory()
@@ -19,28 +24,32 @@ class Command {
     }
   }
 
+  /**
+   * Creates required directories if needed
+   *
+   * @return {void}
+   */
   async setupDirectory () {
     if (!this.writePath) {
       console.warn('No write path as been specified.')
       return
     }
 
-    let exists
-
-    try {
-      exists = await this.pathExists()
-    } catch (err) {
-      console.error(err)
-    }
+    const exists = await this.pathExists()
 
     if (exists) {
       console.warn('That path already exists!')
-      return
+    } else {
+      this._createDirectory()
     }
-
-    this._createDirectory()
   }
 
+  /**
+   * Creates directory based on write path
+   *
+   * @private
+   * @return {void}
+   */
   _createDirectory () {
     return compose(
       mkdirp.sync,
@@ -48,10 +57,21 @@ class Command {
     )(this.writePath)
   }
 
+  /**
+   * Creates a write path for file creation
+   *
+   * @param {String} p - Path
+   * @return {String}
+   */
   createWritePath (p) {
     return path.join(cwd, p)
   }
 
+  /**
+   * Checks if directory path exists
+   *
+   * @return {Boolean}
+   */
   pathExists () {
     let exists
 
@@ -66,19 +86,45 @@ class Command {
     return exists
   }
 
+  /**
+   * Creates path to correct template files
+   *
+   * @param {String} args - File paths
+   * @return {String}
+   */
   _templatePath (...args) {
     return path.join(global.APP_ROOT, ...args)
   }
 
+  /**
+   * Logs the error to the console
+   *
+   * @param {String} err - Error message
+   * @return {void}
+   */
   logError (err) {
-    console.log('err', err)
+    console.error(err)
   }
 
+  /**
+   * Reads a given file
+   *
+   * @param {String} file - File to read
+   * @return {Promise}
+   */
   readFile (file) {
     const readFilePromise = util.promisify(fs.readFile)
     return readFilePromise(file, 'utf8')
   }
 
+  /**
+   * Writes a file. Rendered via ejs
+   *
+   * @param {*} filePath - Path to save file
+   * @param {*} content - File contents to save
+   * @param {*} data - Variables to pass to file contents
+   * @return {Promise}
+   */
   writeFile (filePath, content, data) {
     const writeFilePromise = util.promisify(fs.writeFile)
     return writeFilePromise(filePath, ejs.render(content, data), 'utf-8')
