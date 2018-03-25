@@ -20,6 +20,7 @@
     "mkdirp": "^0.5.1"
   },
   "devDependencies": {
+    "husky": "0.15.0-rc.13",
     "prettier": "1.11.1"
   }
 }
