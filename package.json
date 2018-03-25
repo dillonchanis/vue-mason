@@ -7,7 +7,7 @@
     "pretty": "node_modules/.bin/prettier --write **/*.js"
   },
   "bin": {
-    "vmason": "index.js"
+    "vue-mason": "./index.js"
   },
   "keywords": [],
   "author": "Dillon Chanis <dillonchanis92@gmail.com> (http://dillonchanis.com/)",
