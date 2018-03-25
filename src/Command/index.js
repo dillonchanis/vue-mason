@@ -3,7 +3,7 @@ const fs = require('fs')
 const ejs = require('ejs')
 const mkdirp = require('mkdirp')
 const chalk = require('chalk')
-const { compose, zipWith } = require('../utils')
+const { compose } = require('../utils')
 
 const cwd = process.cwd()
 
@@ -21,10 +21,10 @@ const log = (msg, type) => {
       console.log(chalk.green(msg))
       break
     case 'warning':
-    console.log(chalk.yellow(msg))
+      console.log(chalk.yellow(msg))
       break
     case 'error':
-    console.log(chalk.red(msg))
+      console.log(chalk.red(msg))
       break
     default:
       console.log(msg)
