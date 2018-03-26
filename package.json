@@ -10,11 +10,19 @@
       "pre-commit": "npm run lint"
     }
   },
+  "main": "./index.js",
   "bin": {
     "vue-mason": "./index.js"
   },
-  "keywords": [],
-  "author": "Dillon Chanis <dillonchanis92@gmail.com> (http://dillonchanis.com/)",
+  "keywords": ["vue", "vue-cli", "cli", "node", "mason"],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dillonchanis/vue-mason.git"
+  },
+  "bugs": {
+    "url": "https://github.com/dillonchanis/vue-mason/issues"
+  },
+  "author": "Dillon Chanis",
   "license": "MIT",
   "dependencies": {
     "chalk": "2.3.2",
