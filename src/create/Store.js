@@ -67,7 +67,7 @@ class StoreCommand extends Command {
     await this.writeFile(
       file,
       templateContents,
-      { namespaced: this.namespaced}
+      { namespaced: this.namespaced }
     )
   }
 
