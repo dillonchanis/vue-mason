@@ -71,6 +71,7 @@ class Command {
   /**
    * Checks if directory path exists
    *
+   * @param {String} path - Path of file to write
    * @return {Boolean}
    */
   pathExists (path) {
