@@ -43,13 +43,6 @@ class Command {
       return
     }
 
-    const exists = await this.pathExists(this.writePath)
-
-    if (exists) {
-      console.warn('That path already exists!')
-      return
-    }
-
     this._createDirectory()
   }
 
