@@ -35,13 +35,14 @@ class Command {
       return
     }
 
-    const exists = await this.pathExists()
+    const exists = await this.pathExists(this.writePath)
 
     if (exists) {
       console.warn('That path already exists!')
-    } else {
-      this._createDirectory()
+      return
     }
+
+    this._createDirectory()
   }
 
   /**
@@ -72,18 +73,8 @@ class Command {
    *
    * @return {Boolean}
    */
-  pathExists () {
-    let exists
-
-    fs.access(this.writePath, err => {
-      if (err && err.code === 'ENOENT') {
-        exists = false
-      } else {
-        exists = true
-      }
-    })
-
-    return exists
+  pathExists (path) {
+    return fs.existsSync(path)
   }
 
   /**
