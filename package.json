@@ -1,6 +1,6 @@
 {
   "name": "vue-mason",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A command line tool for quickly generating and scaffolding Vue files.",
   "scripts": {
     "lint": "node_modules/.bin/standard './src/**/*.js' --fix | snazzy || exit 0"
