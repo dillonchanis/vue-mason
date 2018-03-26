@@ -2,14 +2,22 @@ const fs = require('fs')
 const mkdirp = require('mkdirp')
 const path = require('path')
 const ejs = require('ejs')
-const cwd = process.cwd()
 const util = require('util')
-const { compose, removeTrailingSlash } = require('../utils')
+const chalk = require('chalk')
+
+const { compose, padLeft, removeTrailingSlash } = require('../utils')
+const cwd = process.cwd()
 
 /**
  * Class for parsing Commander options
  */
 class Command {
+  static get help () {
+    console.log()
+    compose(console.log, chalk.bold.cyan, padLeft(2, ' '))('Available --type options:')
+    console.log()
+  }
+
   /**
    * Executes file creation
    *

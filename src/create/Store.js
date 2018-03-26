@@ -1,5 +1,6 @@
+const chalk = require('chalk')
 const Command = require('../Command')
-const { removeTrailingSlash } = require('../utils')
+const { compose, padLeft, removeTrailingSlash } = require('../utils')
 
 /**
  * Create a new Vuex store file
@@ -52,6 +53,12 @@ class StoreCommand extends Command {
       'mutations',
       'state'
     ]
+  }
+
+  static get help () {
+    Command.help
+    compose(console.log, chalk.yellow, padLeft(2, ' '))('--flat, Create a single index.js containing core Vuex features. (Default)')
+    compose(console.log, chalk.yellow, padLeft(2, ' '))('--spread, Spreads Vuex features into their own files and imported into an index file.')
   }
 
   /**

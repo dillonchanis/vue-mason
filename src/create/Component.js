@@ -43,7 +43,6 @@ class ComponentCommand extends Command {
    * @private
    */
   static _printTypes () {
-    console.log()
     this.types.forEach(type => {
       compose(
         console.log,
@@ -61,8 +60,7 @@ class ComponentCommand extends Command {
    * @return {void}
    */
   static get help () {
-    console.log()
-    compose(console.log, chalk.bold.cyan, padLeft(2, ' '))('Available component templates:')
+    Command.help
     ComponentCommand._printTypes()
   }
 
