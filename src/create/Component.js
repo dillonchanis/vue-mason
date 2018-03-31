@@ -60,7 +60,6 @@ class ComponentCommand extends Command {
    * @return {void}
    */
   static get help () {
-    Command.help
     ComponentCommand._printTypes()
   }
 

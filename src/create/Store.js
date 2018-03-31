@@ -56,7 +56,6 @@ class StoreCommand extends Command {
   }
 
   static get help () {
-    Command.help
     compose(console.log, chalk.yellow, padLeft(2, ' '))('--flat, Create a single index.js containing core Vuex features. (Default)')
     compose(console.log, chalk.yellow, padLeft(2, ' '))('--spread, Spreads Vuex features into their own files and imported into an index file.')
   }

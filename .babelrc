@@ -1,0 +1,17 @@
+
+{
+  "sourceMaps": true,
+  "compact": "auto",
+  "minified": true,
+  "retainLines": false,
+  "comments": false,
+  "presets": [
+    "env"
+  ],
+  "env": {
+    "test": {},
+    "production": {
+      "presets": ["minify"]
+    }
+  }
+}

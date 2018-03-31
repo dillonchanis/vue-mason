@@ -3,7 +3,8 @@
   "version": "0.0.2",
   "description": "A command line tool for quickly generating and scaffolding Vue files.",
   "scripts": {
-    "lint": "node_modules/.bin/standard './src/**/*.js' --fix | snazzy || exit 0"
+    "lint": "node_modules/.bin/standard './src/**/*.js' --fix | snazzy || exit 0",
+    "build": "NODE_ENV=production ./node_modules/.bin/babel ./src -d ./dist"
   },
   "husky": {
     "hooks": {
@@ -14,7 +15,13 @@
   "bin": {
     "vue-mason": "./index.js"
   },
-  "keywords": ["vue", "vue-cli", "cli", "node", "mason"],
+  "keywords": [
+    "vue",
+    "vue-cli",
+    "cli",
+    "node",
+    "mason"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/dillonchanis/vue-mason.git"
@@ -32,6 +39,9 @@
     "mkdirp": "^0.5.1"
   },
   "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-minify": "^0.3.0",
     "husky": "0.15.0-rc.13",
     "snazzy": "7.1.1",
     "standard": "11.0.1"
