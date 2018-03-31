@@ -11,9 +11,9 @@
       "pre-commit": "npm run lint"
     }
   },
-  "main": "./index.js",
+  "main": "./dist/index.js",
   "bin": {
-    "vue-mason": "./index.js"
+    "vue-mason": "./dist/index.js"
   },
   "keywords": [
     "vue",
