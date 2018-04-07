@@ -1,6 +1,6 @@
 const chalk = require('chalk')
 const Command = require('../Command/')
-const { compose, padLeft, bullet } = require('../utils')
+const { capitalize, compose, padLeft, bullet } = require('../utils')
 
 /**
  * Create a new Vue Component file
@@ -77,6 +77,8 @@ class ComponentCommand extends Command {
       templateContents,
       { name: this.name }
     )
+
+    this.logSuccess(`${capitalize(this.type)} component`)
   }
 }
 

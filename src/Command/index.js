@@ -99,6 +99,10 @@ class Command {
     console.error(err)
   }
 
+  logSuccess (fileType) {
+    console.log(chalk.green(`✔ ${fileType} was successfully created!`))
+  }
+
   /**
    * Reads a given file
    *

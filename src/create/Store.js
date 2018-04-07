@@ -1,6 +1,6 @@
 const chalk = require('chalk')
 const Command = require('../Command')
-const { compose, padLeft, removeTrailingSlash } = require('../utils')
+const { capitalize, compose, padLeft, removeTrailingSlash } = require('../utils')
 
 /**
  * Create a new Vuex store file
@@ -75,6 +75,8 @@ class StoreCommand extends Command {
       templateContents,
       { namespaced: this.namespaced }
     )
+
+    this.logSuccess(`Store file`)
   }
 
   /**
@@ -93,6 +95,8 @@ class StoreCommand extends Command {
         templateContents,
         { namespaced: this.namespaced }
       )
+
+      this.logSuccess(`${capitalize(type)} file`)
     })
   }
 

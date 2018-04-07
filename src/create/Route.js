@@ -14,6 +14,7 @@ class RouteCommand extends Command {
     this.routes = routes
     this.options = options
     this.writePath = this.createWritePath(options.path)
+    this.type = 'Route'
   }
 
   /**
@@ -59,6 +60,8 @@ class RouteCommand extends Command {
       templateContents,
       { routes }
     )
+
+    this.logSuccess(this.type)
   }
 }
 
